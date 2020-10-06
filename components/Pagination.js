@@ -9,7 +9,11 @@ const Pagination = ({
 }) => {
   return (
     <div className="w-75 mx-auto my-5">
-      <Alert className="text-center" variant="dark">
+      <Alert
+        className="text-center"
+        style={{ fontSize: "0.9rem" }}
+        variant="dark"
+      >
         Displaying {current} out of {total} characters
         <ProgressBar animated now={current} max={total} className="mt-3" />
       </Alert>

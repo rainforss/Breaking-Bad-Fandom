@@ -5,3 +5,20 @@
   height: 100vh;
   background: #000 url(../public/bg.jpg) no-repeat center center/cover;
 }
+
+.contacts {
+  position: absolute;
+  z-index: 99;
+  top: 20px;
+  left: 20px;
+  width: 80px;
+  height: 25px;
+  font-size: 15px;
+}
+
+.externalLink {
+  display: inline-block;
+  height: 100%;
+  color: white;
+  margin-right: 15px;
+}

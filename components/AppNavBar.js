@@ -11,13 +11,6 @@ const AppNavbar = () => {
       className="d-flex justify-content-center py-5"
       style={{ zIndex: 10 }}
     >
-      {/* <Nav className="mx-3">
-        <Nav.Item>
-          <Link href="/">
-            <a className={styles.links}>Breaking Bad</a>
-          </Link>
-        </Nav.Item>
-      </Nav> */}
       <Navbar.Brand
         onClick={() => router.push("/spinoff")}
         className="mr-0"
@@ -32,13 +25,6 @@ const AppNavbar = () => {
       >
         <img alt="" src="/bcs.svg.png" className={styles.logo} />
       </Navbar.Brand>
-      {/* <Nav className="mx-3">
-        <Nav.Item>
-          <Link href="/spinoff">
-            <a className={styles.links}>Better Call Saul</a>
-          </Link>
-        </Nav.Item>
-      </Nav> */}
     </Navbar>
   );
 };

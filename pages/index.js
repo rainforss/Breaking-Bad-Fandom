@@ -90,11 +90,11 @@ export default Index;
 
 export const getStaticProps = async () => {
   const result = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}characters?limit=12`
+    `${process.env.NEXT_PUBLIC_BASE_URL}characters?category=Breaking+Bad&limit=12`
   );
   const quotes = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}quotes`);
   const allChar = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}characters`
+    `${process.env.NEXT_PUBLIC_BASE_URL}characters?category=Breaking+Bad`
   );
   return {
     props: {

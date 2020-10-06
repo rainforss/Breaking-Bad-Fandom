@@ -12,9 +12,10 @@ const SearchBar = ({ value, onChange, onClick, onKeyPress }) => {
           onChange={onChange}
           value={value}
           onKeyPress={onKeyPress}
+          size="sm"
         />
         <InputGroup.Append>
-          <Button onClick={onClick} variant="secondary">
+          <Button onClick={onClick} variant="secondary" size="sm">
             Search
           </Button>
         </InputGroup.Append>

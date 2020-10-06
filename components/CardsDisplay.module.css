@@ -76,6 +76,10 @@
   color: #006600;
 }
 
+.quote {
+  align-self: center;
+}
+
 .deathCountButton {
   align-self: center;
 }

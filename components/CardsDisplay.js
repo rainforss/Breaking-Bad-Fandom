@@ -34,10 +34,12 @@ const CardsDisplay = ({ characters, culprit, onClick, quotes }) => {
                   <div key={job}>{job}</div>
                 ))}
               </div>
-              <div className="text-center">
+              <div className={styles.quote}>
                 {quotes.find((quote) => quote.author === character.name)
-                  ? quotes.find((quote) => quote.author === character.name)
-                      .quote
+                  ? `" ${
+                      quotes.find((quote) => quote.author === character.name)
+                        .quote
+                    } "`
                   : ""}
               </div>
               <div className={styles.deathCountButton}>
