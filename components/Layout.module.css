@@ -1,0 +1,7 @@
+.bgContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background: #000 url(../public/bg.jpg) no-repeat center center/cover;
+}
