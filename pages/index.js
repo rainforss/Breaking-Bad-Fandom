@@ -4,11 +4,13 @@ import axios from "axios";
 import useSWR from "swr";
 import CardsDisplay from "../components/CardsDisplay";
 import SearchBar from "../components/SearchBar";
+import Pagination from "../components/Pagination";
 
-const Index = ({ characters }) => {
+const Index = ({ characters, total }) => {
   let searchResults = characters;
   const [query, setQuery] = useState("");
   const [searched, setSearched] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
   const [reveal, setReveal] = useState(false);
   const [charName, setCharName] = useState("");
   const [searchValue, setSearchValue] = useState("");
@@ -21,7 +23,9 @@ const Index = ({ characters }) => {
   );
   const { data: queriedCharacters, error: characterError } = useSWR(
     searched
-      ? `${process.env.NEXT_PUBLIC_BASE_URL}characters?name=${query}`
+      ? `${process.env.NEXT_PUBLIC_BASE_URL}characters?name=${query}&limit=${
+          pageNumber * 12
+        }`
       : null,
     fetcher
   );
@@ -51,6 +55,14 @@ const Index = ({ characters }) => {
             setReveal(true);
           }}
         />
+        <Pagination
+          onClick={() => {
+            setPageNumber(pageNumber + 1);
+            setSearched(true);
+          }}
+          current={searchResults.length}
+          total={total}
+        />
       </Layout>
     </>
   );
@@ -60,11 +72,15 @@ export default Index;
 
 export const getStaticProps = async () => {
   const result = await axios.get(
+    `${process.env.NEXT_PUBLIC_BASE_URL}characters?limit=12`
+  );
+  const allChar = await axios.get(
     `${process.env.NEXT_PUBLIC_BASE_URL}characters`
   );
   return {
     props: {
       characters: result.data,
+      total: allChar.data.length,
     },
   };
 };
