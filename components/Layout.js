@@ -28,7 +28,7 @@ const Layout = (props) => {
         <meta
           name="image"
           property="og:image"
-          content="https://res.cloudinary.com/rainforss/image/upload/v1602019474/breakingbad_vyznac.png"
+          content="https://res.cloudinary.com/rainforss/image/upload/v1602019986/breakingbadsite_uv8c93.png"
         />
         <meta
           name="description"
