@@ -1,39 +1,49 @@
 import Layout from "../components/Layout";
 import React, { useState } from "react";
+import { usePagination } from "../hooks/usePagination";
 import axios from "axios";
 import useSWR from "swr";
 import CardsDisplay from "../components/CardsDisplay";
 import SearchBar from "../components/SearchBar";
 import Pagination from "../components/Pagination";
 
-const Index = ({ characters, total }) => {
+const Index = ({ characters, total, quotes }) => {
   let searchResults = characters;
+  let totalNumberOfResults = total;
   const [query, setQuery] = useState("");
   const [searched, setSearched] = useState(false);
-  const [pageNumber, setPageNumber] = useState(1);
   const [reveal, setReveal] = useState(false);
   const [charName, setCharName] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const fetcher = (url) => axios.get(url).then((res) => res.data);
+  const queryURL = `${process.env.NEXT_PUBLIC_BASE_URL}characters?name=${query}`;
+  const { data, error, mutate, size, setSize, isValidating } = usePagination(
+    queryURL,
+    12,
+    fetcher
+  );
+
+  const chars = data ? [].concat(...data) : [];
+  const isLoadingInitialData = !data && !error;
+  const isLoadingMore =
+    isLoadingInitialData ||
+    (size > 0 && data && typeof data[size - 1] === "undefined");
+  const isEmpty = data?.[0]?.length === 0;
+  const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < 12);
+  const isRefreshing = isValidating && data && data.length === size;
+
   const { data: culprit, error: culpritError } = useSWR(
     reveal
       ? `${process.env.NEXT_PUBLIC_BASE_URL}death-count?name=${charName}`
       : null,
     fetcher
   );
-  const { data: queriedCharacters, error: characterError } = useSWR(
-    searched
-      ? `${process.env.NEXT_PUBLIC_BASE_URL}characters?name=${query}&limit=${
-          pageNumber * 12
-        }`
-      : null,
-    fetcher
-  );
-  if (queriedCharacters && searched) {
-    searchResults = queriedCharacters;
+
+  if (chars.length !== 0 || searched) {
+    searchResults = chars;
   }
-  if (characterError) {
-    console.log("error");
+  if (searched && query) {
+    totalNumberOfResults = chars.length;
   }
 
   return (
@@ -42,6 +52,12 @@ const Index = ({ characters, total }) => {
         <SearchBar
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              setQuery(searchValue);
+              setSearched(true);
+            }
+          }}
           onClick={() => {
             setQuery(searchValue);
             setSearched(true);
@@ -49,6 +65,7 @@ const Index = ({ characters, total }) => {
         />
         <CardsDisplay
           characters={searchResults}
+          quotes={quotes}
           culprit={culprit}
           onClick={(e) => {
             setCharName(e.currentTarget.name.split(" ").join("+"));
@@ -57,11 +74,12 @@ const Index = ({ characters, total }) => {
         />
         <Pagination
           onClick={() => {
-            setPageNumber(pageNumber + 1);
-            setSearched(true);
+            setSize(size + 1);
           }}
-          current={searchResults.length}
-          total={total}
+          isLoadingMore={isLoadingMore}
+          isReachingEnd={isReachingEnd}
+          current={chars.length}
+          total={totalNumberOfResults}
         />
       </Layout>
     </>
@@ -74,6 +92,7 @@ export const getStaticProps = async () => {
   const result = await axios.get(
     `${process.env.NEXT_PUBLIC_BASE_URL}characters?limit=12`
   );
+  const quotes = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}quotes`);
   const allChar = await axios.get(
     `${process.env.NEXT_PUBLIC_BASE_URL}characters`
   );
@@ -81,6 +100,7 @@ export const getStaticProps = async () => {
     props: {
       characters: result.data,
       total: allChar.data.length,
+      quotes: quotes.data,
     },
   };
 };

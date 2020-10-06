@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { Navbar } from "react-bootstrap";
 import styles from "./AppNavBar.module.css";

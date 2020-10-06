@@ -1,7 +1,7 @@
 import { Button } from "react-bootstrap";
 import styles from "./CardsDisplay.module.css";
 
-const CardsDisplay = ({ characters, culprit, onClick }) => {
+const CardsDisplay = ({ characters, culprit, onClick, quotes }) => {
   const Serialize = (string) => string.split(" ").join("_");
   return (
     <div className={styles.cardSection}>
@@ -33,6 +33,12 @@ const CardsDisplay = ({ characters, culprit, onClick }) => {
                 {character.occupation.map((job) => (
                   <div key={job}>{job}</div>
                 ))}
+              </div>
+              <div className="text-center">
+                {quotes.find((quote) => quote.author === character.name)
+                  ? quotes.find((quote) => quote.author === character.name)
+                      .quote
+                  : ""}
               </div>
               <div className={styles.deathCountButton}>
                 <Button

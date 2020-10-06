@@ -1,7 +1,7 @@
 import { InputGroup, FormControl, Button } from "react-bootstrap";
 import styles from "./SearchBar.module.css";
 
-const SearchBar = ({ value, onChange, onClick }) => {
+const SearchBar = ({ value, onChange, onClick, onKeyPress }) => {
   return (
     <div className={styles.searchBar}>
       <InputGroup>
@@ -11,6 +11,7 @@ const SearchBar = ({ value, onChange, onClick }) => {
           aria-describedby="basic-addon2"
           onChange={onChange}
           value={value}
+          onKeyPress={onKeyPress}
         />
         <InputGroup.Append>
           <Button onClick={onClick} variant="secondary">
