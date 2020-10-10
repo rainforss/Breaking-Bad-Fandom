@@ -16,7 +16,7 @@ const Index = ({ characters, total, quotes }) => {
   const [charName, setCharName] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const fetcher = (url) => axios.get(url).then((res) => res.data);
-  const queryURL = `${process.env.NEXT_PUBLIC_BASE_URL}characters?category=Breaking+Bad&name=${query}`;
+  const queryURL = `${process.env.NEXT_PUBLIC_BASE_URL}characters?name=${query}`;
   const { data, error, mutate, size, setSize, isValidating } = usePagination(
     queryURL,
     12,
@@ -90,11 +90,11 @@ export default Index;
 
 export const getStaticProps = async () => {
   const result = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}characters?category=Breaking+Bad&limit=12`
+    `${process.env.NEXT_PUBLIC_BASE_URL}characters?limit=12`
   );
   const quotes = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}quotes`);
   const allChar = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}characters?category=Breaking+Bad`
+    `${process.env.NEXT_PUBLIC_BASE_URL}characters`
   );
   return {
     props: {
