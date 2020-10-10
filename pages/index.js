@@ -16,7 +16,7 @@ const Index = ({ characters, total, quotes }) => {
   const [charName, setCharName] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const fetcher = (url) => axios.get(url).then((res) => res.data);
-  const queryURL = `${process.env.NEXT_PUBLIC_BASE_URL}characters?name=${query}`;
+  const queryURL = `${process.env.NEXT_PUBLIC_BASE_URL}characters?category=Breaking+Bad&name=${query}`;
   const { data, error, mutate, size, setSize, isValidating } = usePagination(
     queryURL,
     12,
