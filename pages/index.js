@@ -88,7 +88,7 @@ const Index = ({ characters, total, quotes }) => {
 
 export default Index;
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const result = await axios.get(
     `${process.env.NEXT_PUBLIC_BASE_URL}characters?limit=12`
   );
