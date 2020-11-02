@@ -7,8 +7,7 @@ import CardsDisplay from "../components/CardsDisplay";
 import SearchBar from "../components/SearchBar";
 import Pagination from "../components/Pagination";
 
-const Index = ({ characters, total, quotes }) => {
-  let searchResults = characters;
+const Index = ({ total, quotes }) => {
   let totalNumberOfResults = total;
   const [query, setQuery] = useState("");
   const [searched, setSearched] = useState(false);
@@ -39,9 +38,8 @@ const Index = ({ characters, total, quotes }) => {
     fetcher
   );
 
-  if (chars.length !== 0 || searched) {
-    searchResults = chars;
-  }
+  let searchResults = chars;
+
   if (searched && query) {
     totalNumberOfResults = chars.length;
   }
@@ -89,16 +87,16 @@ const Index = ({ characters, total, quotes }) => {
 export default Index;
 
 export const getServerSideProps = async () => {
-  const result = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}characters?limit=12`
-  );
+  // const result = await axios.get(
+  //   `${process.env.NEXT_PUBLIC_BASE_URL}characters?limit=12`
+  // );
   const quotes = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}quotes`);
   const allChar = await axios.get(
     `${process.env.NEXT_PUBLIC_BASE_URL}characters`
   );
   return {
     props: {
-      characters: result.data,
+      // characters: result.data,
       total: allChar.data.length,
       quotes: quotes.data,
     },
